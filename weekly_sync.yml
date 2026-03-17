@@ -35,8 +35,9 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
 
-      - name: Commit updated output files
+- name: Commit updated output files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: weekly foreclosure data sync"
           file_pattern: "output/*"
+          push_options: '--force'
