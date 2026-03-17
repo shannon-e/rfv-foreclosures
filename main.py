@@ -20,7 +20,7 @@ from pathlib import Path
 
 import pandas as pd
 
-OUTPUT_DIR = Path(__file__).parent / "output"
+OUTPUT_DIR = Path(__file__).parent / "docs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 SCHEMA_COLS = [
