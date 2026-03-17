@@ -20,7 +20,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT_DIR = Path(__file__).parent
-OUTPUT_DIR = ROOT_DIR / "output"
+OUTPUT_DIR = ROOT_DIR / "docs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 SCRAPERS_DIR = ROOT_DIR / "scrapers"
 
