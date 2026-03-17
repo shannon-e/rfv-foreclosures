@@ -1,0 +1,75 @@
+name: Weekly Foreclosure Sync
+
+on:
+  schedule:
+    # 8 AM MT Monday = 14:00 UTC (MDT) or 15:00 UTC (MST)
+    # Using 15:00 to be safe across daylight saving transitions
+    - cron: "0 15 * * 1"
+  workflow_dispatch:  # allow manual trigger from Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify repo structure
+        run: |
+          echo "=== Root ==="
+          ls -la
+          echo "=== scrapers/ ==="
+          ls -la scrapers/
+          echo "=== output/ ==="
+          ls -la output/ || echo "(output/ empty or missing)"
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install playwright pdfplumber pandas requests beautifulsoup4
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run aggregator
+        run: python main.py
+        env:
+          PYTHONUNBUFFERED: "1"
+
+      - name: Show output summary
+        run: |
+          echo "=== output/ after run ==="
+          ls -lh output/
+          if [ -f output/foreclosures.csv ]; then
+            echo "CSV row count: $(wc -l < output/foreclosures.csv)"
+          fi
+
+      - name: Commit and push output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f docs/
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: weekly foreclosure sync $(date -u +'%Y-%m-%d')"
+          git push --force-with-lease origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload debug screenshots (always, even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: output/*_debug.png
+          if-no-files-found: ignore
