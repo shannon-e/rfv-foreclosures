@@ -1,0 +1,71 @@
+name: Weekly Foreclosure Sync
+
+on:
+  schedule:
+    # Every Monday at 8 AM Mountain Time (14:00 UTC, MST)
+    # Adjust to 15:00 UTC for MDT (summer)
+    - cron: "0 14 * * 1"
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+permissions:
+  contents: write  # Needed to commit output files back to repo
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Python dependencies
+        run: pip install playwright pdfplumber pandas requests beautifulsoup4
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run aggregator
+        run: python main.py
+        env:
+          # If counties add auth in the future, add secrets here:
+          # GARFIELD_USER: ${{ secrets.GARFIELD_USER }}
+          PYTHONUNBUFFERED: "1"
+
+      - name: Show results summary
+        run: |
+          echo "=== Foreclosure Summary ==="
+          python -c "
+          import pandas as pd
+          df = pd.read_csv('output/foreclosures.csv')
+          print(df.groupby('county').size().to_string())
+          print(f'Total: {len(df)} records')
+          "
+
+      - name: Commit updated output files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/foreclosures.csv output/foreclosures.json output/index.html
+          git diff --cached --quiet || git commit -m "chore: weekly foreclosure data sync $(date -u +'%Y-%m-%d')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts (always, even on failure)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: foreclosure-data-${{ github.run_id }}
+          path: |
+            output/foreclosures.csv
+            output/foreclosures.json
+            output/index.html
+            output/*_debug.png
+          retention-days: 30
