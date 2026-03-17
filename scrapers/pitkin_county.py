@@ -17,7 +17,7 @@ import pandas as pd
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
 SEARCH_URL = "https://www.pitkincounty.com/325/Foreclosure-Search"
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR = Path(__file__).parent.parent / "docs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 SCHEMA = [
