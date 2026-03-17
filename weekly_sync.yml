@@ -55,7 +55,7 @@ jobs:
           git pull origin main --rebase
           git add output/foreclosures.csv output/foreclosures.json output/index.html
           git diff --cached --quiet || git commit -m "chore: weekly foreclosure data sync $(date -u +'%Y-%m-%d')"
-          git push origin main
+          git push --force origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
