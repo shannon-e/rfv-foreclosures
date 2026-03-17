@@ -2,10 +2,8 @@ name: Weekly Foreclosure Sync
 
 on:
   schedule:
-    # 8 AM MT Monday = 14:00 UTC (MDT) or 15:00 UTC (MST)
-    # Using 15:00 to be safe across daylight saving transitions
     - cron: "0 15 * * 1"
-  workflow_dispatch:  # allow manual trigger from Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,8 +26,8 @@ jobs:
           ls -la
           echo "=== scrapers/ ==="
           ls -la scrapers/
-          echo "=== output/ ==="
-          ls -la output/ || echo "(output/ empty or missing)"
+          echo "=== docs/ ==="
+          ls -la docs/ || echo "(docs/ empty or missing)"
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
@@ -49,10 +47,10 @@ jobs:
 
       - name: Show output summary
         run: |
-          echo "=== output/ after run ==="
-          ls -lh output/
-          if [ -f output/foreclosures.csv ]; then
-            echo "CSV row count: $(wc -l < output/foreclosures.csv)"
+          echo "=== docs/ after run ==="
+          ls -lh docs/ || echo "(docs/ missing)"
+          if [ -f docs/foreclosures.csv ]; then
+            echo "CSV row count: $(wc -l < docs/foreclosures.csv)"
           fi
 
       - name: Commit and push output
@@ -62,14 +60,15 @@ jobs:
           git add -f docs/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: weekly foreclosure sync $(date -u +'%Y-%m-%d')"
-          git push --force-with-lease origin HEAD:main
+          git fetch origin main
+          git push --force origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload debug screenshots (always, even on failure)
+      - name: Upload debug screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: debug-screenshots
-          path: output/*_debug.png
+          path: docs/*_debug.png
           if-no-files-found: ignore
