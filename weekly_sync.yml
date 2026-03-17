@@ -49,16 +49,10 @@ jobs:
           "
 
 - name: Commit updated output files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git rebase origin/main
-          git add output/foreclosures.csv output/foreclosures.json output/index.html
-          git diff --cached --quiet || git commit -m "chore: weekly foreclosure data sync $(date -u +'%Y-%m-%d')"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: weekly foreclosure data sync"
+          file_pattern: "output/*"
 
       - name: Upload artifacts (always, even on failure)
         uses: actions/upload-artifact@v4
