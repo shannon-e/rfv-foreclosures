@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RFV Foreclosures</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f3f0;color:#2a2a2a;margin:0;padding:1.5rem}
+h1{font-size:1.55rem;margin:0 0 .2rem;font-weight:700}
+.meta{color:#777;font-size:.82rem;margin-bottom:1.4rem}
+.stats{display:flex;gap:.875rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.stat{background:#fff;border-radius:8px;padding:.7rem 1.1rem;box-shadow:0 1px 3px rgba(0,0,0,.07);min-width:120px}
+.stat .n{font-size:1.75rem;font-weight:700}
+.stat .l{font-size:.72rem;color:#999;text-transform:uppercase;letter-spacing:.05em}
+.sg .n{color:#c0392b} .se .n{color:#2980b9} .sp .n{color:#27ae60}
+.controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+input[type=search],select{padding:.45rem .7rem;border:1px solid #ddd;border-radius:6px;font-size:.875rem;background:#fff}
+input[type=search]{min-width:240px}
+input[type=search]:focus,select:focus{outline:none;border-color:#888}
+.btn{padding:.45rem .9rem;background:#2a2a2a;color:#fff;border:none;border-radius:6px;font-size:.82rem;cursor:pointer;margin-left:auto}
+.btn:hover{background:#444}
+#count{font-size:.82rem;color:#888}
+.wrap{overflow-x:auto;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+table{border-collapse:collapse;width:100%;font-size:.83rem}
+th{text-align:left;padding:.7rem .85rem;background:#fafafa;border-bottom:2px solid #eee;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:#666;cursor:pointer;white-space:nowrap;user-select:none}
+th:hover{background:#f0f0f0}
+th.asc::after{content:" ↑"} th.desc::after{content:" ↓"}
+td{padding:.55rem .85rem;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover td{background:#fafbff}
+tr.hidden{display:none}
+.badge{display:inline-block;padding:.18em .5em;border-radius:4px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.badge-eagle{background:#eaf4fb;color:#2980b9}
+.badge-garfield{background:#fdecea;color:#c0392b}
+.badge-pitkin{background:#eafaf1;color:#27ae60}
+.lt{font-size:.7rem;color:#888;background:#f0f0f0;padding:.12em .4em;border-radius:3px}
+.empty{text-align:center;padding:3rem;color:#888;display:none}
+@media(max-width:600px){body{padding:.75rem}.controls{flex-direction:column}.btn{margin-left:0}}
+</style>
+</head>
+<body>
+<h1>🏔️ Roaring Fork Valley Pre-Sale Foreclosures</h1>
+<div class="meta">Updated: 2026-03-23 15:58 UTC &nbsp;·&nbsp; Eagle, Garfield &amp; Pitkin Counties &nbsp;·&nbsp; Currently scheduled for sale only</div>
+
+<div class="stats">
+  <div class="stat"><div class="n">15</div><div class="l">Total</div></div>
+  <div class="stat se"><div class="n">0</div><div class="l">Eagle</div></div>
+  <div class="stat sg"><div class="n">15</div><div class="l">Garfield</div></div>
+  <div class="stat sp"><div class="n">0</div><div class="l">Pitkin</div></div>
+</div>
+
+<div class="controls">
+  <input type="search" id="q" placeholder="Search borrower, address, case #…" oninput="filter()">
+  <select id="cf" onchange="filter()">
+    <option value="">All Counties</option>
+    <option>Eagle</option><option>Garfield</option><option>Pitkin</option>
+  </select>
+  <select id="tf" onchange="filter()">
+    <option value="">All List Types</option>
+    <option value="presale">Pre-Sale</option>
+    <option value="continuance">Continuance</option>
+  </select>
+  <span id="count"></span>
+  <button class="btn" onclick="exportCSV()">Export CSV</button>
+</div>
+
+<div class="wrap">
+  <table id="t">
+    <thead><tr>
+      <th onclick="sort(0)">County</th>
+      <th onclick="sort(1)">Case #</th>
+      <th onclick="sort(2)">Borrower</th>
+      <th onclick="sort(3)">Address</th>
+      <th onclick="sort(4)">Sale Date</th>
+      <th onclick="sort(5)">Lender</th>
+      <th onclick="sort(6)">Amount</th>
+      <th onclick="sort(7)">Status</th>
+      <th onclick="sort(8)">Type</th>
+    </tr></thead>
+    <tbody id="tb">
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td></td>
+                <td>Search Criteria
+	
+Foreclosure Number:	  
+Borrower/Grantor's Name:	
+Current Owner's Name:	  
+Zip Code:	    
+Street:	  
+Subdivision Name:	  
+Status:	
+Bankruptcy (Erroneous Sale)
+Bankruptcy (Extends Owner Redemption Period)
+Bankruptcy (No Effect On Foreclosure)
+Bankruptcy (To be continued)
+Bankruptcy General
+Bankruptcy Prior to NED
+Bankruptcy Sale Stayed (Restart Needed)
+Continued
+Cured
+Deeded
+Deferred
+Determine Agricultural Status
+Intent to Cure Filed
+Lienor Intent to Redeem Filed
+Lienor Redemption
+Motion to Set Aside Sale
+NED Recorded
+New Foreclosure
+Original Sale
+Owner Intent to Redeem Filed
+Owner Redemption
+Owner Redemption Figures Pending
+Pending Continuance
+Publication Partial
+Redeemed by Owner
+Rescinded
+Restarted
+Resumed After Set Aside or TRO
+Sale Set Aside by Court Order
+Sold
+Temporary Restraining Order
+To be Rescinded
+To be Withdrawn
+Unknown
+Withdrawn
+Withdrawn (Cured)
+
+NED Date Range:	 - 
+Sold Date Range:	 - 
+Current Scheduled Sale Date Range:	 - 
+Eligible For Deferment:	
+No
+Yes
+
+Expedited Sale:	
+No
+Yes
+
+At least one of the above search criterias is required</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Search Criteria</td>
+                <td>Search Criteria</td>
+                <td>Search Criteria</td>
+                <td>Search Criteria</td>
+                <td>Search Criteria</td>
+                <td></td>
+                <td>Search Criteria</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Foreclosure Number:</td>
+                <td>Foreclosure Number:</td>
+                <td>Foreclosure Number:</td>
+                <td>Foreclosure Number:</td>
+                <td>Foreclosure Number:</td>
+                <td></td>
+                <td>Foreclosure Number:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Borrower/Grantor's Name:</td>
+                <td>Borrower/Grantor's Name:</td>
+                <td>Borrower/Grantor's Name:</td>
+                <td>Borrower/Grantor's Name:</td>
+                <td>Borrower/Grantor's Name:</td>
+                <td></td>
+                <td>Borrower/Grantor's Name:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Current Owner's Name:</td>
+                <td>Current Owner's Name:</td>
+                <td>Current Owner's Name:</td>
+                <td>Current Owner's Name:</td>
+                <td>Current Owner's Name:</td>
+                <td></td>
+                <td>Current Owner's Name:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Zip Code:</td>
+                <td>Zip Code:</td>
+                <td>Zip Code:</td>
+                <td>Zip Code:</td>
+                <td>Zip Code:</td>
+                <td></td>
+                <td>Zip Code:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Street:</td>
+                <td>Street:</td>
+                <td>Street:</td>
+                <td>Street:</td>
+                <td>Street:</td>
+                <td></td>
+                <td>Street:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Subdivision Name:</td>
+                <td>Subdivision Name:</td>
+                <td>Subdivision Name:</td>
+                <td>Subdivision Name:</td>
+                <td>Subdivision Name:</td>
+                <td></td>
+                <td>Subdivision Name:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Status:</td>
+                <td>Status:</td>
+                <td>Status:</td>
+                <td>Status:</td>
+                <td>Status:</td>
+                <td></td>
+                <td>Status:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>NED Date Range:</td>
+                <td>NED Date Range:</td>
+                <td>NED Date Range:</td>
+                <td>NED Date Range:</td>
+                <td>NED Date Range:</td>
+                <td></td>
+                <td>NED Date Range:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Sold Date Range:</td>
+                <td>Sold Date Range:</td>
+                <td>Sold Date Range:</td>
+                <td>Sold Date Range:</td>
+                <td>Sold Date Range:</td>
+                <td></td>
+                <td>Sold Date Range:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td></td>
+                <td>Current Scheduled Sale Date Range:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Eligible For Deferment:</td>
+                <td>Eligible For Deferment:</td>
+                <td>Eligible For Deferment:</td>
+                <td>Eligible For Deferment:</td>
+                <td>Eligible For Deferment:</td>
+                <td></td>
+                <td>Eligible For Deferment:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>Expedited Sale:</td>
+                <td>Expedited Sale:</td>
+                <td>Expedited Sale:</td>
+                <td>Expedited Sale:</td>
+                <td>Expedited Sale:</td>
+                <td></td>
+                <td>Expedited Sale:</td>
+                <td><span class="lt">presale</span></td>
+            </tr>
+            <tr class="county-garfield" data-county="Garfield" data-listtype="presale">
+                <td><span class="badge badge-garfield">Garfield</span></td>
+                <td>At least one of the above search criterias is required</td>
+                <td>At least one of the above search criterias is required</td>
+                <td>At least one of the above search criterias is required</td>
+                <td>At least one of the above search criterias is required</td>
+                <td>At least one of the above search criterias is required</td>
+                <td></td>
+                <td>At least one of the above search criterias is required</td>
+                <td><span class="lt">presale</span></td>
+            </tr></tbody>
+  </table>
+  <div class="empty" id="empty">No matching records.</div>
+</div>
+
+<script>
+function filter(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const cf=document.getElementById('cf').value;
+  const tf=document.getElementById('tf').value;
+  let v=0;
+  document.querySelectorAll('#tb tr').forEach(r=>{
+    const show=(!q||r.innerText.toLowerCase().includes(q))&&
+               (!cf||r.dataset.county===cf)&&
+               (!tf||r.dataset.listtype===tf);
+    r.classList.toggle('hidden',!show);
+    if(show)v++;
+  });
+  document.getElementById('count').textContent=v+' record'+(v!==1?'s':'');
+  document.getElementById('empty').style.display=v===0?'block':'none';
+}
+let sd={};
+function sort(c){
+  const tb=document.getElementById('tb');
+  const rows=[...tb.querySelectorAll('tr')];
+  const dir=sd[c]==='asc'?'desc':'asc'; sd={};sd[c]=dir;
+  document.querySelectorAll('th').forEach((th,i)=>{th.classList.remove('asc','desc');if(i===c)th.classList.add(dir);});
+  rows.sort((a,b)=>{
+    const av=a.cells[c]?.innerText.trim()||'';
+    const bv=b.cells[c]?.innerText.trim()||'';
+    return dir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>tb.appendChild(r));
+}
+function exportCSV(){
+  const rows=document.querySelectorAll('#tb tr:not(.hidden)');
+  const hdrs=[...document.querySelectorAll('thead th')].map(th=>th.innerText.trim());
+  const lines=[hdrs.join(',')];
+  rows.forEach(r=>{
+    const cells=[...r.cells].map(td=>'"'+td.innerText.replace(/"/g,'""').trim()+'"');
+    lines.push(cells.join(','));
+  });
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'}));
+  a.download='rfv-foreclosures-20260323.csv';
+  a.click();
+}
+filter();
+</script>
+</body>
+</html>
