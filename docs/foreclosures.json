@@ -9,7 +9,7 @@
     "lender":"Search Criteria\n\t\nForeclosure Number:\t \u00a0\nBorrower\/Grantor's Name:\t\nCurrent Owner's Name:\t \u00a0\nZip Code:\t \u00a0 \u00a0\nStreet:\t \u00a0\nSubdivision Name:\t \u00a0\nStatus:\t\nBankruptcy (Erroneous Sale)\nBankruptcy (Extends Owner Redemption Period)\nBankruptcy (No Effect On Foreclosure)\nBankruptcy (To be continued)\nBankruptcy General\nBankruptcy Prior to NED\nBankruptcy Sale Stayed (Restart Needed)\nContinued\nCured\nDeeded\nDeferred\nDetermine Agricultural Status\nIntent to Cure Filed\nLienor Intent to Redeem Filed\nLienor Redemption\nMotion to Set Aside Sale\nNED Recorded\nNew Foreclosure\nOriginal Sale\nOwner Intent to Redeem Filed\nOwner Redemption\nOwner Redemption Figures Pending\nPending Continuance\nPublication Partial\nRedeemed by Owner\nRescinded\nRestarted\nResumed After Set Aside or TRO\nSale Set Aside by Court Order\nSold\nTemporary Restraining Order\nTo be Rescinded\nTo be Withdrawn\nUnknown\nWithdrawn\nWithdrawn (Cured)\n\nNED Date Range:\t - \nSold Date Range:\t - \nCurrent Scheduled Sale Date Range:\t - \nEligible For Deferment:\t\nNo\nYes\n\nExpedited Sale:\t\nNo\nYes\n\nAt least one of the above search criterias is required",
     "original_amount":"",
     "status":"Search Criteria\n\t\nForeclosure Number:\t \u00a0\nBorrower\/Grantor's Name:\t\nCurrent Owner's Name:\t \u00a0\nZip Code:\t \u00a0 \u00a0\nStreet:\t \u00a0\nSubdivision Name:\t \u00a0\nStatus:\t\nBankruptcy (Erroneous Sale)\nBankruptcy (Extends Owner Redemption Period)\nBankruptcy (No Effect On Foreclosure)\nBankruptcy (To be continued)\nBankruptcy General\nBankruptcy Prior to NED\nBankruptcy Sale Stayed (Restart Needed)\nContinued\nCured\nDeeded\nDeferred\nDetermine Agricultural Status\nIntent to Cure Filed\nLienor Intent to Redeem Filed\nLienor Redemption\nMotion to Set Aside Sale\nNED Recorded\nNew Foreclosure\nOriginal Sale\nOwner Intent to Redeem Filed\nOwner Redemption\nOwner Redemption Figures Pending\nPending Continuance\nPublication Partial\nRedeemed by Owner\nRescinded\nRestarted\nResumed After Set Aside or TRO\nSale Set Aside by Court Order\nSold\nTemporary Restraining Order\nTo be Rescinded\nTo be Withdrawn\nUnknown\nWithdrawn\nWithdrawn (Cured)\n\nNED Date Range:\t - \nSold Date Range:\t - \nCurrent Scheduled Sale Date Range:\t - \nEligible For Deferment:\t\nNo\nYes\n\nExpedited Sale:\t\nNo\nYes\n\nAt least one of the above search criterias is required",
-    "scraped_at":"2026-03-30T16:04:51.558635",
+    "scraped_at":"2026-04-06T15:43:45.339599",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -22,7 +22,7 @@
     "lender":"Search Criteria",
     "original_amount":"",
     "status":"Search Criteria",
-    "scraped_at":"2026-03-30T16:04:51.567977",
+    "scraped_at":"2026-04-06T15:43:45.349507",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -35,7 +35,7 @@
     "lender":"Foreclosure Number:",
     "original_amount":"",
     "status":"Foreclosure Number:",
-    "scraped_at":"2026-03-30T16:04:51.577475",
+    "scraped_at":"2026-04-06T15:43:45.358812",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -48,7 +48,7 @@
     "lender":"Borrower\/Grantor's Name:",
     "original_amount":"",
     "status":"Borrower\/Grantor's Name:",
-    "scraped_at":"2026-03-30T16:04:51.586708",
+    "scraped_at":"2026-04-06T15:43:45.368367",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -61,7 +61,7 @@
     "lender":"Current Owner's Name:",
     "original_amount":"",
     "status":"Current Owner's Name:",
-    "scraped_at":"2026-03-30T16:04:51.595667",
+    "scraped_at":"2026-04-06T15:43:45.377728",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -74,7 +74,7 @@
     "lender":"Zip Code:",
     "original_amount":"",
     "status":"Zip Code:",
-    "scraped_at":"2026-03-30T16:04:51.604704",
+    "scraped_at":"2026-04-06T15:43:45.387626",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -87,7 +87,7 @@
     "lender":"Street:",
     "original_amount":"",
     "status":"Street:",
-    "scraped_at":"2026-03-30T16:04:51.614464",
+    "scraped_at":"2026-04-06T15:43:45.397179",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -100,7 +100,7 @@
     "lender":"Subdivision Name:",
     "original_amount":"",
     "status":"Subdivision Name:",
-    "scraped_at":"2026-03-30T16:04:51.623378",
+    "scraped_at":"2026-04-06T15:43:45.406787",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -113,7 +113,7 @@
     "lender":"Status:",
     "original_amount":"",
     "status":"Status:",
-    "scraped_at":"2026-03-30T16:04:51.632028",
+    "scraped_at":"2026-04-06T15:43:45.416211",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -126,7 +126,7 @@
     "lender":"NED Date Range:",
     "original_amount":"",
     "status":"NED Date Range:",
-    "scraped_at":"2026-03-30T16:04:51.641091",
+    "scraped_at":"2026-04-06T15:43:45.426062",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -139,7 +139,7 @@
     "lender":"Sold Date Range:",
     "original_amount":"",
     "status":"Sold Date Range:",
-    "scraped_at":"2026-03-30T16:04:51.651067",
+    "scraped_at":"2026-04-06T15:43:45.436535",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -152,7 +152,7 @@
     "lender":"Current Scheduled Sale Date Range:",
     "original_amount":"",
     "status":"Current Scheduled Sale Date Range:",
-    "scraped_at":"2026-03-30T16:04:51.660436",
+    "scraped_at":"2026-04-06T15:43:45.446189",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -165,7 +165,7 @@
     "lender":"Eligible For Deferment:",
     "original_amount":"",
     "status":"Eligible For Deferment:",
-    "scraped_at":"2026-03-30T16:04:51.669632",
+    "scraped_at":"2026-04-06T15:43:45.455863",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -178,7 +178,7 @@
     "lender":"Expedited Sale:",
     "original_amount":"",
     "status":"Expedited Sale:",
-    "scraped_at":"2026-03-30T16:04:51.678882",
+    "scraped_at":"2026-04-06T15:43:45.465269",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   },
   {
@@ -191,7 +191,7 @@
     "lender":"At least one of the above search criterias is required",
     "original_amount":"",
     "status":"At least one of the above search criterias is required",
-    "scraped_at":"2026-03-30T16:04:51.685350",
+    "scraped_at":"2026-04-06T15:43:45.471786",
     "source_url":"https:\/\/foreclosures.garfieldcountyco.gov\/"
   }
 ]
